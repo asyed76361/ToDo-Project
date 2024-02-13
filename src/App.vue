@@ -16,7 +16,7 @@
 </template>
 <script setup>
 import { storeToRefs } from "pinia";
-import Navbar from "./components/Navbar.vue";
+import Navbar from "./components/NavbarComponent.vue";
 import { useAuthStore } from "./store/auth-store";
 
 const { isAuthenticated, token } = storeToRefs(useAuthStore());

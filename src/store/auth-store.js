@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { defineStore } from "pinia";
 import {
   postRequest,
@@ -27,6 +28,14 @@ export const useAuthStore = defineStore("auth", {
         showSnackBar(true, "Login successful");
         router.push("/");
 
+        return response;
+      } catch (error) { }
+    },
+    async handleRegistration(payload) {
+      try {
+        const response = await postRequest("register", payload);
+        showSnackBar(true, response?.data.message);
+        router.push("/login");
         return response;
       } catch (error) { }
     },

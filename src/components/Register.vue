@@ -5,17 +5,18 @@
         <div class="q-mb-md row">
           <div class="flex justify-center col">
             <img
-              src="../../assets/todoo.png"
+              src="../assets/todoo.png"
               class="q-mr-sm"
               style="width: 100px; height: 50px"
               alt="Custom Icon"
             />
+            <!-- <p class="header">Researcher Portal</p> -->
           </div>
         </div>
         <div class="q-pa-md login-card">
-          <div class="text-h5 text-center q-mb-md">Account Login</div>
+          <div class="text-h5 text-center q-mb-md">Register Account</div>
           <div class="text-subtitle2 q-mb-md">
-            Enter your credentials to log in to your account
+            Enter your credentials to register your account
           </div>
           <q-form @submit.prevent="onSubmit" class="form-control">
             <InputField
@@ -28,7 +29,6 @@
               ]"
               v-model="email"
               label="Email Address"
-              class="q-mb-md"
               appendIcon=""
               prependIcon="email"
               type="email"
@@ -42,7 +42,7 @@
               :type="isPwd ? 'password' : 'text'"
             >
               <template v-slot:label>
-                <div class="label">Enter Password</div>
+                <div class="label">Password</div>
               </template>
               <template v-slot:prepend>
                 <q-icon name="key" class="icon-color" />
@@ -56,17 +56,43 @@
                 />
               </template>
             </q-input>
+            <q-input
+              v-model="confirmpassword"
+              borderless
+              label="Confirm Password"
+              :rules="[
+                (val) => (val && val.length > 0) || 'Required',
+                () => confirmpassword === password || 'Passwords do not match',
+              ]"
+              :type="isPwd1 ? 'password' : 'text'"
+            >
+              <template v-slot:label>
+                <div class="label">Confirm Password</div>
+              </template>
+              <template v-slot:prepend>
+                <q-icon name="key" class="icon-color" />
+              </template>
+              <template v-slot:append>
+                <q-icon
+                  class="icon-color cursor-pointer"
+                  :name="isPwd1 ? 'visibility_off' : 'visibility'"
+                  size="1.25rem"
+                  @click="isPwd1 = !isPwd1"
+                />
+              </template>
+            </q-input>
             <div
               class="q-link q-mb-md"
               style="display: flex; justify-content: flex-end"
-              @click="navigateToRegister">
-              New To Website ?
+              @click="navigateToLogin"
+            >
+              Already Have Account ?
             </div>
             <Button
               :loading="loading"
               style="max-width: 465px"
               type="submit"
-              label="Login"
+              label="Register"
             />
           </q-form>
         </div>
@@ -78,7 +104,7 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useAuthStore } from "../../store/auth-store.js";
+import { useAuthStore } from "../store/auth-store.js";
 
 const authStore = useAuthStore();
 
@@ -86,27 +112,24 @@ const router = useRouter();
 const loading = ref(false);
 const email = ref("");
 const password = ref("");
+const confirmpassword = ref("");
 const isPwd = ref(true);
-
+const isPwd1 = ref(true);
 const onSubmit = () => {
   loading.value = true;
   authStore
-    .handleLogin({
+    .handleRegistration({
       email: email.value,
       password: password.value,
+      password_confirmation: confirmpassword.value,
     })
-    .then(() => {
-      loading.value = false;
-    })
-    .catch(() => {
-      loading.value = false;
-    })
+    .catch((error) => {})
     .finally(() => {
       loading.value = false;
     });
 };
-const navigateToRegister = () => {
-  router.push("/register");
+const navigateToLogin = () => {
+  router.push("/login");
 };
 </script>
 
@@ -116,13 +139,28 @@ const navigateToRegister = () => {
   background-size: cover;
   background-position: top;
 }
-.rem {
-  cursor: pointer;
-}
 .q-link {
   text-decoration: none;
-  color: #A8D7C6;
+  color: var(--q-header-background);
   cursor: pointer;
+}
+
+.top-content {
+  text-align: center;
+}
+.header {
+  font-family: "Lato", sans-serif !important;
+  color: #323346;
+  font-weight: 600;
+  font-size: 28.15px;
+}
+.icon {
+  width: 41px;
+  height: 38px;
+}
+
+.top-content q-col {
+  margin-bottom: 10px;
 }
 
 .form-control {
@@ -145,35 +183,35 @@ const navigateToRegister = () => {
 }
 
 .text-h5 {
-  font-family: sans-serif;
+  font-family: "Inter", sans-serif !important;
   font-size: 28px;
   font-weight: 600;
   line-height: 34px;
   letter-spacing: 0em;
   text-align: center;
   margin-bottom: 20px;
-  color: #484964;
+  color: var(--q-text-heading);
 }
 
 .text-subtitle2 {
-  font-family:sans-serif;
+  font-family: "Inter", sans-serif !important;
   font-weight: 400px;
   font-size: 13px;
   line-height: 15.73px;
-  color: #ABACBE;
+  color: var(--q-faded-text);
 }
 .q-field:deep(.q-field__inner) {
-  border: 2px solid #F2F2F7;
+  border: 2px solid var(--q-app-secondary);
   padding: 0 20px 0 20px;
   border-radius: 8px;
   background: white;
-  color: #40415A !important;
+  color: var(--q-text-color) !important;
 }
 .label {
-  color: #40415A !important;
+  color: var(--q-text-color) !important;
 }
 .icon-color {
-  color: #A8D7C6;
+  color: var(--q-header-background);
 }
 @media (max-width: 631px) {
   .login-card {
