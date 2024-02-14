@@ -8,7 +8,7 @@ import pinia from "./store";
 import style from "./assets/style/table.css";
 
 import InputField from "./components/global/InputField.vue";
-import Button from "./components/global/Button.vue";
+import Button from "./components/global/ButtonComponent.vue";
 import DropDown from "./components/global/DropDown.vue";
 const app = createApp(App);
 app.component("InputField", InputField);

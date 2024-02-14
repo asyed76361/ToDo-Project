@@ -1,3 +1,4 @@
+/* eslint-disable */
 <template>
   <div class="body">
     <q-page class="flex flex-column items-center justify-center">
@@ -123,7 +124,7 @@ const onSubmit = () => {
       password: password.value,
       password_confirmation: confirmpassword.value,
     })
-    .catch((error) => {})
+    .catch(() => {})
     .finally(() => {
       loading.value = false;
     });

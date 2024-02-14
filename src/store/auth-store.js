@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { defineStore } from "pinia";
 import {
   postRequest,
@@ -37,6 +36,23 @@ export const useAuthStore = defineStore("auth", {
         showSnackBar(true, response?.data.message);
         router.push("/login");
         return response;
+      } catch (error) { }
+    },
+    async handleTodo(payload) {
+      try {
+        const response = await postRequest("item", payload);
+        showSnackBar(true, "Created Successfully");
+        router.push("/");
+        return response;
+      } catch (error) { }
+    },
+    async handleLogout() {
+      try {
+        const response = await postRequest("logout");
+        this.token = "";
+        this.isAuthenticated = false;
+        showSnackBar(true, "Logout successful");
+        router.push("/login");
       } catch (error) { }
     },
   },

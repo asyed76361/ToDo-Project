@@ -1,4 +1,3 @@
-
 <template>
   <q-btn
     :icon="appendIcon"

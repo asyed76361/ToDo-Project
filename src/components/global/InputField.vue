@@ -19,9 +19,6 @@
 </template>
 
 <script setup>
-import { defineEmits } from 'vue';
-import { defineProps } from 'vue';
-
 defineProps([
   "color",
   "type",
